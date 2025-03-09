@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import { BrowserRouter as Router , Routes , Route } from 'react-router-dom'
+import { HashRouter as Router , Routes , Route } from 'react-router-dom'
 import PageNotFound from './pages/PageNotFound'
 import Home from './pages/Home'
 import LoginPage from './pages/LoginPage'

@@ -8,7 +8,7 @@ export default defineConfig({
   server : {
     proxy : {
       '/api' : {
-        target : "https://authentication-api-qtax.onrender.com",
+        // target : "https://authentication-api-qtax.onrender.com",
         changeOrigin : true,
         secure : false
       }

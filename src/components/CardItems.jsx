@@ -108,6 +108,7 @@ const CardItems = ({ Card }) => {
                 onClick={() => dispatch(Remove(Card.id))} 
                 className='mt-3 sm:mt-0 px-4 py-2 bg-[#722F37] text-white rounded-lg shadow-md hover:bg-[#5b242d] transition'
             >
+                
                 X
             </button>
         </div>

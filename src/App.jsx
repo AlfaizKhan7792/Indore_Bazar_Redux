@@ -9,7 +9,6 @@ import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
 import ProductPage from './pages/ProductPage'
 import CardButton from './components/CardButton'
-import CardPage from './pages/CardPage'
 
 const App = () => {
   return (

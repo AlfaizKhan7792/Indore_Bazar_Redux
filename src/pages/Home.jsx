@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import OurService from '../components/OurService'
 import LoadingPage from '../components/LoadingPage'
+import CardButton from '../components/CardButton'
 
 const Home = () => {
 
@@ -52,6 +53,8 @@ const Home = () => {
     {/* Products Section */}
     <OurService />
     </div>
+
+    <CardButton />
 
     </>
   )

@@ -45,7 +45,7 @@ const Home = () => {
         <img
           src="https://t3.ftcdn.net/jpg/02/41/43/18/360_F_241431868_8DFQpCcmpEPVG0UvopdztOAd4a6Rqsoo.jpg" 
           alt="Hero"
-          className="w-full max-w-sm rounded-lg shadow-lg hover:scale-150 duration-500"
+          className="w-full max-w-sm rounded-lg shadow-lg hover:scale-110 md:hover:scale-150  duration-500"
         />
       </div>
     </div>

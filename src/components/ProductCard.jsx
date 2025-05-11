@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Add } from '../features/Card/CardSlice'
+import { toast } from 'react-toastify'
 
 const ProductCard = ({Products}) => {
 
   const dispatch = useDispatch()
-  const {Cards} = useSelector(state => state.Card.Cards)
 
     const handleAddToCard = (Products) =>{
+      toast.success("Item Added!!")
       dispatch(Add(Products))
     }
 

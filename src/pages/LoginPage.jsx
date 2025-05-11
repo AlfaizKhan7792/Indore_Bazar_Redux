@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LoginUser } from '../features/Auth/AuthSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import LoadingPage from '../components/LoadingPage';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -10,7 +11,6 @@ const LoginPage = () => {
   const { 
     isLoading, 
     isError, 
-    isSuccess, 
     message,
     Users 
   } = useSelector(state => state.Auth);
@@ -23,16 +23,69 @@ const LoginPage = () => {
     password : "",
   })
 
-  // const {email , password} = formData
+  const [formErrors , setFormErrors] = useState({
+    email : "",
+    password : ""
+  })
+
+  const {email , password} = formData
 
   const handleChange = (e) =>{
     setFormData({...formData , [e.target.name] : e.target.value})
+    setFormErrors({...formErrors , [e.target.name] : ""})
+  }
+
+  // Validate Form Data
+  const validateForm = () =>{
+let isValid = true;
+const newErrors = {...formErrors}
+
+// Validate Email
+if(!email){
+  newErrors.email = "Email is required"
+  isValid = false;
+}else if(!/\S+@\S+\.\S+/.test(email)){
+  newErrors.email = "Email is invalid"
+  isValid = false
+}
+
+// Validate Password
+if(!password){
+  newErrors.password = "Password is required"
+  isValid = false
+}else if(password.length < 6){
+  newErrors.password = "Password must be at least 6 characters"
+  isValid = false
+}
+
+setFormErrors(newErrors)
+return isValid
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(LoginUser(formData))
-    setFormData({email : "", password : ""})
+
+    if(validateForm()){
+      dispatch(LoginUser(formData))
+      .unwrap()
+      .then(() =>{
+        toast.success("LoggedIn Successful!")
+        setFormData({email : "", password : ""})
+      })
+      .catch((error) => {
+        if(error.includes("User Not LoggedIn")){
+          toast.error("User Not LoggedIn")
+        }else{
+          toast.error(error || "LoggedIn failed!")
+        }
+      })
+    }else{
+      const errorMessages = Object.values(formErrors).filter(msg => msg !== "")
+      if(errorMessages.length > 0){
+        toast.error(errorMessages[0])
+      }
+    }
+
   };
   
   // Start animation after component mounts
@@ -55,7 +108,7 @@ const LoginPage = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen p-4" style={{ backgroundColor: '#EFDFBB' }}>
-      <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row">
+      <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-5xl flex flex-col md:flex-row">
         {/* Left section with illustration */}
         <div className="relative w-full md:w-1/2 p-6 flex flex-col justify-between border-[#722F37] border-2 " style={{ backgroundColor: '#EFDFBB' }}>
           <div className="relative h-full">
@@ -122,7 +175,7 @@ const LoginPage = () => {
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                   </svg>
                 </div>
-                <span>InstaShipin</span>
+                <span>Indore_Bazar</span>
               </div>
             </div>
           </div>
@@ -132,7 +185,7 @@ const LoginPage = () => {
         <div className="w-full md:w-1/2 p-8 md:p-12 border border-[#722F37]">
           <div className="h-full flex flex-col justify-center">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold mb-2" style={{ color: '#722F37' }}>Welcome to InstaShipin</h1>
+              <h1 className="text-3xl font-bold mb-2" style={{ color: '#722F37' }}>Welcome to Indore_Bazar</h1>
               <p className="text-xl font-medium italic" style={{ color: '#722F37', opacity: 0.8 }}>Ship Smarter Today</p>
             </div>
             
@@ -158,9 +211,10 @@ const LoginPage = () => {
                     placeholder="Username or email"
                     onChange={handleChange}
                     name='email'
-                    value={formData.email}
-                    className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-md text-[#722F37] focus:outline-none focus:ring-2 focus:ring-[#722F37] focus:border-[#722F37] transition-all"
+                    value={email}
+                    className={`pl-10 pr-4 py-3 w-full border ${formErrors.email ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 text-[#722F37] focus:ring-[#722F37] focus:border-[#722F37] transition-all`}
                   />
+                  {formErrors.email && <p className='mt-1 text-xs text-red-500' >{formErrors.email}</p>}
                 </div>
               </div>
               
@@ -175,10 +229,10 @@ const LoginPage = () => {
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     required
-                    value={formData.password}
+                    value={password}
                     onChange={handleChange}
                     name='password'
-                    className="pl-10 pr-10 py-3 w-full text-[#722F37] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#722F37] focus:border-[#722F37] transition-all"
+                    className={`pl-10 pr-10 py-3 w-full border ${formErrors.password ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 text-[#722F37] focus:ring-[#722F37] focus:border-[#722F37] transition-all`}
                   />
                   <div 
                     className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-600"
@@ -196,6 +250,7 @@ const LoginPage = () => {
                       </svg>
                     )}
                   </div>
+                  {formErrors.password && <p className="mt-1 text-xs text-red-500">{formErrors.password}</p>}
                 </div>
               </div>
               

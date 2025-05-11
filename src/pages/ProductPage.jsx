@@ -4,6 +4,7 @@ import LoadingPage from '../components/LoadingPage'
 import { GetProduct } from '../features/Products/ProductsSlice'
 import { useParams } from 'react-router-dom'
 import { Add } from '../features/Card/CardSlice'
+import { toast } from 'react-toastify'
 
 const ProductPage = () => {
 
@@ -11,7 +12,8 @@ const ProductPage = () => {
     const dispatch = useDispatch()
     const {id} = useParams()
 
-    const handleAddToCard = (Product) =>{
+    const handleAddToCard = (Product) =>{ 
+      toast.success("Item Addedd!!")
       dispatch(Add(Product))
     }
 

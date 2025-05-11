@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
 import ProductPage from './pages/ProductPage'
 import CardPage from './pages/CardPage'
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
   </Route>
 </Routes>
 <Footer />
+<ToastContainer />
     </Router>
   )
 }
